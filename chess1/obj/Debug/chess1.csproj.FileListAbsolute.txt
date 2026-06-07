@@ -2,13 +2,11 @@ C:\study\semester4\chess1\chess1\bin\Debug\chess1.exe.config
 C:\study\semester4\chess1\chess1\bin\Debug\chess1.exe
 C:\study\semester4\chess1\chess1\bin\Debug\chess1.pdb
 C:\study\semester4\chess1\chess1\obj\Debug\chess1.csproj.AssemblyReference.cache
-C:\study\semester4\chess1\chess1\obj\Debug\chess1.Form1.resources
 C:\study\semester4\chess1\chess1\obj\Debug\chess1.Properties.Resources.resources
 C:\study\semester4\chess1\chess1\obj\Debug\chess1.csproj.GenerateResource.cache
 C:\study\semester4\chess1\chess1\obj\Debug\chess1.csproj.CoreCompileInputs.cache
 C:\study\semester4\chess1\chess1\obj\Debug\chess1.exe
 C:\study\semester4\chess1\chess1\obj\Debug\chess1.pdb
 C:\study\semester4\chess1\chess1\obj\Debug\chess1.exe.config
-C:\study\semester4\chess1\chess1\obj\Debug\chess1.MainMenu.resources
 C:\study\semester4\chess1\chess1\obj\Debug\chess1.Menu.resources
 C:\study\semester4\chess1\chess1\obj\Debug\chess1.GameBoard.resources

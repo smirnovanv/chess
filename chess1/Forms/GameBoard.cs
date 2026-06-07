@@ -7,10 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using chess1.Models;
 
 namespace chess1
 {
-    public partial class GameBoard : Form
+    public partial class GameBoard : BaseForm
     {
         private Label turnLabel;
         private Button backButton;
@@ -20,6 +21,7 @@ namespace chess1
         public GameBoard()
         {
             InitializeComponent();
+            SetWindowSettings(900, 700);
             CreateChessBoard();
         }
 
@@ -27,20 +29,8 @@ namespace chess1
         {
 
         }
-
         private void CreateChessBoard()
         {
-            // Настройка формы
-            this.Text = "Шахматы - Игра";
-            this.Size = new Size(900, 700);
-            this.StartPosition = FormStartPosition.CenterScreen;
-            this.BackColor = Color.FromArgb(240, 240, 240);
-            this.MinimumSize = new Size(900, 700);
-            this.MaximumSize = new Size(900, 700);
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            this.MinimizeBox = true;
-
             // Верхняя панель с информацией
             Panel topPanel = new Panel();
             topPanel.Height = 80;
@@ -155,18 +145,5 @@ namespace chess1
             MessageBox.Show($"Клик по клетке {pos.Row}, {pos.Col}", "Координаты");
         }
 
-    }
-
-
-    public class Position
-    {
-        public int Row { get; set; }
-        public int Col { get; set; }
-
-        public Position(int row, int col)
-        {
-            Row = row;
-            Col = col;
-        }
     }
 }
