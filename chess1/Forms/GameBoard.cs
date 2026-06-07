@@ -1,4 +1,6 @@
-﻿using System;
+﻿using chess1.Models;
+using chess1.UI;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,21 +9,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using chess1.Models;
 
 namespace chess1
 {
     public partial class GameBoard : BaseForm
     {
-        private Label turnLabel;
-        private Button backButton;
         private TableLayoutPanel chessBoard;
         private Button[,] cells;
+        private TopPanelUI topPanel;
 
         public GameBoard()
         {
             InitializeComponent();
             SetWindowSettings(900, 700);
+            InitializeUI();
             CreateChessBoard();
         }
 
@@ -29,47 +30,27 @@ namespace chess1
         {
 
         }
+
+        private void InitializeUI()
+        {
+            topPanel = new TopPanelUI();
+            topPanel.SubscribeToBackButton(BackButton_Click);
+            this.Controls.Add(topPanel.Panel);
+        }
+
         private void CreateChessBoard()
         {
-            // Верхняя панель с информацией
-            Panel topPanel = new Panel();
-            topPanel.Height = 80;
-            topPanel.Dock = DockStyle.Top;
-            topPanel.BackColor = Color.FromArgb(50, 50, 50);
-
-            // Метка с информацией о ходе
-            turnLabel = new Label();
-            turnLabel.Text = "Ход белых";
-            turnLabel.Font = new Font("Segoe UI", 18, FontStyle.Bold);
-            turnLabel.ForeColor = Color.White;
-            turnLabel.TextAlign = ContentAlignment.MiddleCenter;
-            turnLabel.Dock = DockStyle.Fill;
-
-            // Кнопка "Назад"
-            backButton = new Button();
-            backButton.Text = "← Выход";
-            backButton.Font = new Font("Segoe UI", 12);
-            backButton.Size = new Size(100, 40);
-            backButton.Location = new Point(20, 20);
-            backButton.BackColor = Color.FromArgb(200, 70, 70);
-            backButton.ForeColor = Color.White;
-            backButton.FlatStyle = FlatStyle.Flat;
-            backButton.Click += BackButton_Click;
-
-            topPanel.Controls.Add(turnLabel);
-            topPanel.Controls.Add(backButton);
-
             Panel boardContainer = new Panel();
             boardContainer.Dock = DockStyle.Fill;
             boardContainer.BackColor = Color.FromArgb(240, 240, 240);
 
+            int boardWidth = 280;
+
             // Шахматная доска
             chessBoard = new TableLayoutPanel();
-            //chessBoard.Dock = DockStyle.Fill;
-            chessBoard.Size = new Size(280, 280);
+            chessBoard.Size = new Size(boardWidth, boardWidth);
             chessBoard.ColumnCount = 8;
             chessBoard.RowCount = 8;
-            //chessBoard.Padding = new Padding(20);
             chessBoard.BackColor = Color.FromArgb(240, 240, 240);
             chessBoard.Anchor = AnchorStyles.None;
             chessBoard.Location = new Point(
@@ -77,7 +58,7 @@ namespace chess1
         (boardContainer.Height - chessBoard.Height) / 2
     );
 
-            int cellSize = 280 / 8; // 35 пикселей на клетку
+            int cellSize = boardWidth / 8; // 35 пикселей на клетку
 
             // Настройка размеров клеток
             for (int i = 0; i < 8; i++)
@@ -117,8 +98,7 @@ namespace chess1
             }
 
             boardContainer.Controls.Add(chessBoard);
-            this.Controls.Add(boardContainer);
-            this.Controls.Add(topPanel);
+            this.Controls.Add(boardContainer); 
         }
 
 
