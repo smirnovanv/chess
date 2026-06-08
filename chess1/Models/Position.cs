@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace chess1.Models
 {
-    internal class Position
+    public class Position
     {
         public int Row { get; set; }
         public int Col { get; set; }
