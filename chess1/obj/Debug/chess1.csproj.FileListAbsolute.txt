@@ -10,3 +10,4 @@ C:\study\semester4\chess1\chess1\obj\Debug\chess1.pdb
 C:\study\semester4\chess1\chess1\obj\Debug\chess1.exe.config
 C:\study\semester4\chess1\chess1\obj\Debug\chess1.Menu.resources
 C:\study\semester4\chess1\chess1\obj\Debug\chess1.GameBoard.resources
+C:\study\semester4\chess1\chess1\bin\Debug\Resources\Images\white-queen.png

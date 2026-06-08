@@ -1,4 +1,5 @@
-﻿using chess1.Models;
+﻿using chess1.Helpers;
+using chess1.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -11,7 +12,7 @@ namespace chess1.UI
 {
     public class BoardContainerUI
     {
-        private Button[,] cells;
+        private PictureBox[,] cells;
         private TableLayoutPanel chessBoard;
         public Panel BoardContainer { get; private set; }
 
@@ -75,31 +76,33 @@ namespace chess1.UI
                 chessBoard.RowStyles.Add(new RowStyle(SizeType.Absolute, cellSize));
             }
 
-            cells = new Button[8, 8];
+            cells = new PictureBox[8, 8];
 
             for (int row = 0; row < 8; row++)
             {
                 for (int col = 0; col < 8; col++)
                 {
-                    Button cell = new Button();
-                    cell.Size = new Size(cellSize, cellSize);
+                    PictureBox cell = CreateCell(row, col, cellSize);
+                        
+                    //    new Button();
+                    //cell.Size = new Size(cellSize, cellSize);
 
-                    cell.FlatStyle = FlatStyle.Flat;
-                    cell.FlatAppearance.BorderSize = 0;
-                    cell.Tag = new Position(row, col);
+                    //cell.FlatStyle = FlatStyle.Flat;
+                    //cell.FlatAppearance.BorderSize = 0;
+                    //cell.Tag = new Position(row, col);
 
-                    // Подписываемся на событие клика
-                    cell.Click += Cell_Click;
+                    //// Подписываемся на событие клика
+                    //cell.Click += Cell_Click;
 
-                    // Шахматная раскраска
-                    if ((row + col) % 2 == 0)
-                    {
-                        cell.BackColor = Color.FromArgb(240, 217, 181); // Светлая клетка
-                    }
-                    else
-                    {
-                        cell.BackColor = Color.FromArgb(181, 136, 99); // Темная клетка
-                    }
+                    //// Шахматная раскраска
+                    //if ((row + col) % 2 == 0)
+                    //{
+                    //    cell.BackColor = Color.FromArgb(240, 217, 181); // Светлая клетка
+                    //}
+                    //else
+                    //{
+                    //    cell.BackColor = Color.FromArgb(181, 136, 99); // Темная клетка
+                    //}
 
                     cells[row, col] = cell;
                     chessBoard.Controls.Add(cell, col, row);
@@ -194,12 +197,48 @@ namespace chess1.UI
 
         private void Cell_Click(object sender, EventArgs e)
         {
-            Button clickedCell = sender as Button;
+            PictureBox clickedCell = sender as PictureBox;
             if (clickedCell != null && clickedCell.Tag is Position pos)
             {
                 // Вызываем событие, передавая координаты
                 CellClicked?.Invoke(this, pos);
             }
         }
+
+        // Метод для получения клетки по координатам
+        public PictureBox GetCell(int row, int col)
+        {
+            if (row >= 0 && row < 8 && col >= 0 && col < 8)
+                return cells[row, col];
+            return null;
+        }
+
+        public void UpdateFigure(int row, int col, Figure figure)
+        {
+            PictureBox cell = GetCell(row, col);
+            if (cell != null)
+            {
+                //cell.Text = figureSymbol;
+                //cell.Font = new Font("Segoe UI", 12, FontStyle.Bold);
+                Image pieceImage = ImageLoader.GetFigureImage(figure);
+                cell.Image = pieceImage;
+            }
+        }
+
+        private PictureBox CreateCell(int row, int col, int cellSize)
+        {
+            PictureBox cell = new PictureBox();
+            cell.Size = new Size(cellSize, cellSize);
+            cell.SizeMode = PictureBoxSizeMode.Zoom;  // Изображение вписывается в клетку
+            cell.BackColor = (row + col) % 2 == 0
+                ? Color.FromArgb(240, 217, 181)  // Светлая
+                : Color.FromArgb(181, 136, 99);  // Темная
+
+            cell.Tag = new Position(row, col);
+            cell.Click += Cell_Click;
+
+            return cell;
+        }
+
     }
 }

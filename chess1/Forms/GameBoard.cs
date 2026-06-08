@@ -16,6 +16,7 @@ namespace chess1
     {
         private TopPanelUI topPanel;
         private BoardContainerUI boardContainerUI;
+        private Board board;
 
         public GameBoard()
         {
@@ -23,6 +24,7 @@ namespace chess1
             SetWindowSettings(900, 700);
             InitializeUI();
             InitializeBoardUI();
+            InitializeGame();
         }
 
         private void GameBoard_Load(object sender, EventArgs e)
@@ -63,6 +65,24 @@ namespace chess1
         {
             // Временное сообщение для теста
             MessageBox.Show($"Клик по клетке {pos.Row}, {pos.Col}", "Координаты");
+        }
+
+        private void InitializeGame()
+        {
+            board = new Board();
+            UpdateBoardDisplay();
+        }
+
+        private void UpdateBoardDisplay()
+        {
+            for (int row = 0; row < 8; row++)
+            {
+                for (int col = 0; col < 8; col++)
+                {
+                    Figure figure = board.GetFigureAt(new Position(row, col));
+                    boardContainerUI.UpdateFigure(row, col, figure);
+                }
+            }
         }
 
     }
