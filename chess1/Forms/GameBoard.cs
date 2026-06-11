@@ -24,7 +24,7 @@ namespace chess1
             SetWindowSettings(900, 700);
             InitializeUI();
             InitializeBoardUI();
-            InitializeGame();
+            //InitializeGame();
         }
 
         private void GameBoard_Load(object sender, EventArgs e)
@@ -41,8 +41,9 @@ namespace chess1
 
         private void InitializeBoardUI()
         {
+            board = new Board();
             // Создаем контейнер с доской
-            boardContainerUI = new BoardContainerUI();
+            boardContainerUI = new BoardContainerUI(board);
             boardContainerUI.CellClicked += OnCellClicked;  // Подписываемся на событие
             this.Controls.Add(boardContainerUI.BoardContainer);
         }
@@ -64,26 +65,33 @@ namespace chess1
         private void OnCellClicked(object sender, Position pos)
         {
             // Временное сообщение для теста
-            MessageBox.Show($"Клик по клетке {pos.Row}, {pos.Col}", "Координаты");
+            // MessageBox.Show($"Клик по клетке {pos.Row}, {pos.Col}", "Координаты");
+
+            // обвести клетку
+            boardContainerUI.UpdateCell(pos.Row, pos.Col);
+
+            // если есть фигура подсветить клетку
+
         }
 
-        private void InitializeGame()
-        {
-            board = new Board();
-            UpdateBoardDisplay();
-        }
+        //private void InitializeGame()
+        //{
+        //    board = new Board();
+        //    UpdateBoardDisplay();
+        //}
 
-        private void UpdateBoardDisplay()
-        {
-            for (int row = 0; row < 8; row++)
-            {
-                for (int col = 0; col < 8; col++)
-                {
-                    Figure figure = board.GetFigureAt(new Position(row, col));
-                    boardContainerUI.UpdateFigure(row, col, figure);
-                }
-            }
-        }
+        //private void UpdateBoardDisplay()
+        //{
+        //    for (int row = 0; row < 8; row++)
+        //    {
+        //        for (int col = 0; col < 8; col++)
+        //        {
+        //            Figure figure = board.GetFigureAt(new Position(row, col));
+        //            boardContainerUI.UpdateFigure(row, col, figure);
+        //        }
+        //    }
+        //}
+
 
     }
 }

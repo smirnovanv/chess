@@ -12,13 +12,15 @@ namespace chess1.UI
 {
     public class BoardContainerUI
     {
-        private PictureBox[,] cells;
+        private Board board;
+        private Dictionary<Cell, PictureBox> cellToPictureBox;
         private TableLayoutPanel chessBoard;
         public Panel BoardContainer { get; private set; }
 
         public event EventHandler<Position> CellClicked;
-        public BoardContainerUI()
+        public BoardContainerUI(Board boardModel)
         {
+            board = boardModel;
             CreateBoardContainer();
         }
         private void CreateBoardContainer() 
@@ -76,36 +78,27 @@ namespace chess1.UI
                 chessBoard.RowStyles.Add(new RowStyle(SizeType.Absolute, cellSize));
             }
 
-            cells = new PictureBox[8, 8];
+            cellToPictureBox = new Dictionary<Cell, PictureBox>();
 
             for (int row = 0; row < 8; row++)
             {
                 for (int col = 0; col < 8; col++)
                 {
-                    PictureBox cell = CreateCell(row, col, cellSize);
-                        
-                    //    new Button();
-                    //cell.Size = new Size(cellSize, cellSize);
 
-                    //cell.FlatStyle = FlatStyle.Flat;
-                    //cell.FlatAppearance.BorderSize = 0;
-                    //cell.Tag = new Position(row, col);
+                    Cell cellModel = board.GetCellAt(col, row);
+                    Color color = cellModel.type == CellType.Light ? Color.FromArgb(240, 217, 181)  // Светлая
+                        : Color.FromArgb(181, 136, 99);
 
-                    //// Подписываемся на событие клика
-                    //cell.Click += Cell_Click;
+                    PictureBox cellUI = CreateCellUI(row, col, cellSize, color);
 
-                    //// Шахматная раскраска
-                    //if ((row + col) % 2 == 0)
-                    //{
-                    //    cell.BackColor = Color.FromArgb(240, 217, 181); // Светлая клетка
-                    //}
-                    //else
-                    //{
-                    //    cell.BackColor = Color.FromArgb(181, 136, 99); // Темная клетка
-                    //}
+                    cellToPictureBox[cellModel] = cellUI;
+                    chessBoard.Controls.Add(cellUI, col, row);
 
-                    cells[row, col] = cell;
-                    chessBoard.Controls.Add(cell, col, row);
+                    // отрисовка фигур
+                    if (cellModel.figure != null)
+                    {
+                        UpdateFigure(row, col, cellModel.figure);
+                    }
                 }
             }
 
@@ -208,8 +201,12 @@ namespace chess1.UI
         // Метод для получения клетки по координатам
         public PictureBox GetCell(int row, int col)
         {
-            if (row >= 0 && row < 8 && col >= 0 && col < 8)
-                return cells[row, col];
+            if (row >= 0 && row < 8 && col >= 0 && col < 8) {
+                Cell modelCell = board.GetCellAt(col, row);
+
+                return cellToPictureBox[modelCell];
+            }
+                
             return null;
         }
 
@@ -218,21 +215,38 @@ namespace chess1.UI
             PictureBox cell = GetCell(row, col);
             if (cell != null)
             {
-                //cell.Text = figureSymbol;
-                //cell.Font = new Font("Segoe UI", 12, FontStyle.Bold);
                 Image pieceImage = ImageLoader.GetFigureImage(figure);
                 cell.Image = pieceImage;
             }
         }
 
-        private PictureBox CreateCell(int row, int col, int cellSize)
+        // test
+        public void UpdateCell(int row, int col)
+        {
+            PictureBox cell = GetCell(row, col);
+            //cell.BorderStyle = BorderStyle.FixedSingle;
+
+            cell.Paint += (sender, e) =>
+            {
+                // Рисуем желтую рамку
+                using (Pen yellowPen = new Pen(Color.Yellow, 3))
+                {
+                    e.Graphics.DrawRectangle(yellowPen,
+                        new Rectangle(0, 0, cell.Width - 1, cell.Height - 1));
+                }
+            };
+
+            cell.Invalidate(); // Перерисовываем
+        }
+
+        private PictureBox CreateCellUI(int row, int col, int cellSize, Color color)
         {
             PictureBox cell = new PictureBox();
             cell.Size = new Size(cellSize, cellSize);
             cell.SizeMode = PictureBoxSizeMode.Zoom;  // Изображение вписывается в клетку
-            cell.BackColor = (row + col) % 2 == 0
-                ? Color.FromArgb(240, 217, 181)  // Светлая
-                : Color.FromArgb(181, 136, 99);  // Темная
+
+            Cell modelCell = board.GetCellAt(col, row);
+            cell.BackColor = color;
 
             cell.Tag = new Position(row, col);
             cell.Click += Cell_Click;

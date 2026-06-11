@@ -21,4 +21,10 @@ namespace chess1.Models
         Queen,
         King
     }
+
+    public enum CellType
+    {
+        Light,
+        Dark
+    }
 }

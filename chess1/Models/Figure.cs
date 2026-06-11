@@ -11,5 +11,7 @@ namespace chess1.Models
         public FigureType Type { get; protected set; }
         public FigureColor Color { get; set; }
         public Position Position { get; set; }
+
+        // допустимые ходы
     }
 }

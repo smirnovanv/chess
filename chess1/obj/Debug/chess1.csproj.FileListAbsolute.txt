@@ -11,3 +11,14 @@ C:\study\semester4\chess1\chess1\obj\Debug\chess1.exe.config
 C:\study\semester4\chess1\chess1\obj\Debug\chess1.Menu.resources
 C:\study\semester4\chess1\chess1\obj\Debug\chess1.GameBoard.resources
 C:\study\semester4\chess1\chess1\bin\Debug\Resources\Images\white-queen.png
+C:\study\semester4\chess1\chess1\bin\Debug\Resources\Images\black-bishop.png
+C:\study\semester4\chess1\chess1\bin\Debug\Resources\Images\black-king.png
+C:\study\semester4\chess1\chess1\bin\Debug\Resources\Images\black-knight.png
+C:\study\semester4\chess1\chess1\bin\Debug\Resources\Images\black-pawn.png
+C:\study\semester4\chess1\chess1\bin\Debug\Resources\Images\black-queen.png
+C:\study\semester4\chess1\chess1\bin\Debug\Resources\Images\black-rook.png
+C:\study\semester4\chess1\chess1\bin\Debug\Resources\Images\white-bishop.png
+C:\study\semester4\chess1\chess1\bin\Debug\Resources\Images\white-king.png
+C:\study\semester4\chess1\chess1\bin\Debug\Resources\Images\white-knight.png
+C:\study\semester4\chess1\chess1\bin\Debug\Resources\Images\white-pawn.png
+C:\study\semester4\chess1\chess1\bin\Debug\Resources\Images\white-rook.png

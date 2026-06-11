@@ -35,8 +35,7 @@ namespace chess1.Helpers
             string prefix = figure.Color == FigureColor.White ? "white" : "black";
             string pieceName = figure.Type.ToString().ToLower();
 
-            // return $"{prefix}-{pieceName}.png";
-            return "white-queen.png";
+            return $"{prefix}-{pieceName}.png";
         }
 
         private static Image GetEmbeddedImage(Figure figure)
