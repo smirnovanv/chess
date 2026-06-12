@@ -18,10 +18,13 @@ namespace chess1.UI
         public Panel BoardContainer { get; private set; }
 
         public event EventHandler<Position> CellClicked;
+        private PaintEventHandler borderPaintHandler;
+
         public BoardContainerUI(Board boardModel)
         {
             board = boardModel;
             CreateBoardContainer();
+            borderPaintHandler = DrawYellowBorder;
         }
         private void CreateBoardContainer() 
         {
@@ -86,7 +89,7 @@ namespace chess1.UI
                 {
 
                     Cell cellModel = board.GetCellAt(col, row);
-                    Color color = cellModel.type == CellType.Light ? Color.FromArgb(240, 217, 181)  // Светлая
+                    Color color = cellModel.Type == CellType.Light ? Color.FromArgb(240, 217, 181)  // Светлая
                         : Color.FromArgb(181, 136, 99);
 
                     PictureBox cellUI = CreateCellUI(row, col, cellSize, color);
@@ -95,9 +98,9 @@ namespace chess1.UI
                     chessBoard.Controls.Add(cellUI, col, row);
 
                     // отрисовка фигур
-                    if (cellModel.figure != null)
+                    if (cellModel.Figure != null)
                     {
-                        UpdateFigure(row, col, cellModel.figure);
+                        UpdateFigure(row, col, cellModel.Figure);
                     }
                 }
             }
@@ -220,23 +223,33 @@ namespace chess1.UI
             }
         }
 
-        // test
-        public void UpdateCell(int row, int col)
+        public void SetCellBoarder(int row, int col)
         {
             PictureBox cell = GetCell(row, col);
-            //cell.BorderStyle = BorderStyle.FixedSingle;
 
-            cell.Paint += (sender, e) =>
+            cell.Paint += borderPaintHandler;
+            cell.Invalidate();
+        }
+
+        public void ClearCellBoarder(PictureBox selectedCell)
+        {
+            if (selectedCell != null)
             {
-                // Рисуем желтую рамку
-                using (Pen yellowPen = new Pen(Color.Yellow, 3))
-                {
-                    e.Graphics.DrawRectangle(yellowPen,
-                        new Rectangle(0, 0, cell.Width - 1, cell.Height - 1));
-                }
-            };
+                selectedCell.Paint -= borderPaintHandler;
+                selectedCell.Invalidate(); // Перерисовываем без рамки
+            }
+        }
 
-            cell.Invalidate(); // Перерисовываем
+        private void DrawYellowBorder(object sender, PaintEventArgs e)
+        {
+            PictureBox cell = sender as PictureBox;
+            if (cell == null) return;
+
+            using (Pen yellowPen = new Pen(Color.Yellow, 3))
+            {
+                e.Graphics.DrawRectangle(yellowPen,
+                    new Rectangle(0, 0, cell.Width - 1, cell.Height - 1));
+            }
         }
 
         private PictureBox CreateCellUI(int row, int col, int cellSize, Color color)
@@ -253,6 +266,5 @@ namespace chess1.UI
 
             return cell;
         }
-
     }
 }

@@ -17,6 +17,7 @@ namespace chess1
         private TopPanelUI topPanel;
         private BoardContainerUI boardContainerUI;
         private Board board;
+        private Cell selectedStartCell;
 
         public GameBoard()
         {
@@ -64,34 +65,60 @@ namespace chess1
 
         private void OnCellClicked(object sender, Position pos)
         {
+            Cell prevSelectedCell = board.selectedStartCell;
+
+            Cell currSelectedCell = board.GetCellAt(pos.Col, pos.Row);
+
+            if (prevSelectedCell == null) 
+            {
+                Cell startCell = board.GetCellAt(pos.Col, pos.Row);
+                board.selectedStartCell = startCell;
+                boardContainerUI.SetCellBoarder(pos.Row, pos.Col);
+                return;
+
+            }
+
+            Position prevSelectedCellPosition = prevSelectedCell.Position;
+            Position currSelectedCellPosition = currSelectedCell.Position;
+
+            bool isSameCell = prevSelectedCellPosition.Row == currSelectedCellPosition.Row && prevSelectedCellPosition.Col == currSelectedCellPosition.Col;
+
             // Временное сообщение для теста
             // MessageBox.Show($"Клик по клетке {pos.Row}, {pos.Col}", "Координаты");
 
-            // обвести клетку
-            boardContainerUI.UpdateCell(pos.Row, pos.Col);
+            // обнуляем пред. обводку
+            bool isMoveAvailable = prevSelectedCell.Figure != null && !isSameCell && currSelectedCell.Figure == null;
 
-            // если есть фигура подсветить клетку
+            Figure movingFigure = prevSelectedCell.Figure;
+
+            if (isMoveAvailable) {
+                board.MoveFigure(prevSelectedCell, currSelectedCell);
+
+                
+                boardContainerUI.UpdateFigure(prevSelectedCellPosition.Row, prevSelectedCellPosition.Col, null);
+                boardContainerUI.UpdateFigure(currSelectedCellPosition.Row, currSelectedCellPosition.Col, movingFigure);
+            }
+
+            if (board.selectedStartCell != null) 
+            {
+                
+                PictureBox cellUI = boardContainerUI.GetCell(prevSelectedCellPosition.Row, prevSelectedCellPosition.Col);
+
+                board.selectedStartCell = null;
+                boardContainerUI.ClearCellBoarder(cellUI);
+
+                
+            }
+
+            if (!isMoveAvailable)
+            {
+                // делаем новую
+                Cell startCell = board.GetCellAt(pos.Col, pos.Row);
+                board.selectedStartCell = startCell;
+                boardContainerUI.SetCellBoarder(pos.Row, pos.Col);
+            }
 
         }
-
-        //private void InitializeGame()
-        //{
-        //    board = new Board();
-        //    UpdateBoardDisplay();
-        //}
-
-        //private void UpdateBoardDisplay()
-        //{
-        //    for (int row = 0; row < 8; row++)
-        //    {
-        //        for (int col = 0; col < 8; col++)
-        //        {
-        //            Figure figure = board.GetFigureAt(new Position(row, col));
-        //            boardContainerUI.UpdateFigure(row, col, figure);
-        //        }
-        //    }
-        //}
-
 
     }
 }

@@ -11,10 +11,10 @@ namespace chess1.Models
         //private Figure[,] figures;
         private Cell[,] cells;
         public const int Size = 8;
+        public Cell selectedStartCell;
 
         public Board()
         {
-            //figures = new Figure[Size, Size];
             cells = new Cell[Size, Size];
             InitializeBoard();
         }
@@ -28,9 +28,8 @@ namespace chess1.Models
                 {
                     CellType cellType = (i + j) % 2 == 0 ? CellType.Light : CellType.Dark;
                    
-                    cells[i, j] = new Cell(cellType);
+                    cells[i, j] = new Cell(cellType, i, j);
                 }
-                    //cells[i, j] = null;
             }
 
 
@@ -40,9 +39,6 @@ namespace chess1.Models
             {
                 cells[1, i].UpdateFigure(new Pawn(FigureColor.Black));
                 cells[6, i].UpdateFigure(new Pawn(FigureColor.White));
-
-                //figures[1, i] = new Pawn(FigureColor.Black);
-                //figures[6, i] = new Pawn(FigureColor.White);
             }
         }
 
@@ -52,12 +48,24 @@ namespace chess1.Models
             //    return pieces[pos.Row, pos.Col];
             //return null;
 
-            return cells[pos.Row, pos.Col].figure;
+            return cells[pos.Row, pos.Col].Figure;
         }
 
         public Cell GetCellAt(int col, int row)
         {
             return cells[row, col];
+        }
+
+        public void MoveFigure(Cell startCell, Cell endCell)
+        {
+            Figure movingFigure = startCell.Figure;
+            
+            if (startCell.Figure != null && endCell.Figure == null)
+            {
+                startCell.Figure = null;
+                endCell.Figure = movingFigure;
+
+            }
         }
 
     }
