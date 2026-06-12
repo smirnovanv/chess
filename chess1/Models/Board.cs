@@ -8,7 +8,6 @@ namespace chess1.Models
 {
     public class Board
     {
-        //private Figure[,] figures;
         private Cell[,] cells;
         public const int Size = 8;
         public Cell selectedStartCell;

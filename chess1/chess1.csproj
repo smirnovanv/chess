@@ -71,6 +71,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\BoardContainerUI.cs" />
+    <Compile Include="UI\CellUI.cs" />
     <Compile Include="UI\TopPanelUI.cs" />
     <EmbeddedResource Include="Forms\GameBoard.resx">
       <DependentUpon>GameBoard.cs</DependentUpon>

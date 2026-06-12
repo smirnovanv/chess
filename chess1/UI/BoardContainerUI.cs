@@ -13,18 +13,16 @@ namespace chess1.UI
     public class BoardContainerUI
     {
         private Board board;
-        private Dictionary<Cell, PictureBox> cellToPictureBox;
+        private Dictionary<Cell, CellUI> cellToPictureBox;
         private TableLayoutPanel chessBoard;
         public Panel BoardContainer { get; private set; }
 
         public event EventHandler<Position> CellClicked;
-        private PaintEventHandler borderPaintHandler;
 
         public BoardContainerUI(Board boardModel)
         {
             board = boardModel;
             CreateBoardContainer();
-            borderPaintHandler = DrawYellowBorder;
         }
         private void CreateBoardContainer() 
         {
@@ -81,7 +79,7 @@ namespace chess1.UI
                 chessBoard.RowStyles.Add(new RowStyle(SizeType.Absolute, cellSize));
             }
 
-            cellToPictureBox = new Dictionary<Cell, PictureBox>();
+            cellToPictureBox = new Dictionary<Cell, CellUI>();
 
             for (int row = 0; row < 8; row++)
             {
@@ -92,15 +90,17 @@ namespace chess1.UI
                     Color color = cellModel.Type == CellType.Light ? Color.FromArgb(240, 217, 181)  // Светлая
                         : Color.FromArgb(181, 136, 99);
 
-                    PictureBox cellUI = CreateCellUI(row, col, cellSize, color);
+                    CellUI cellUI = new CellUI(row, col, cellSize, color);
+
+                    cellUI.SubscribeToClick(Cell_Click);
 
                     cellToPictureBox[cellModel] = cellUI;
-                    chessBoard.Controls.Add(cellUI, col, row);
+                    chessBoard.Controls.Add(cellUI.CellField, col, row);
 
                     // отрисовка фигур
                     if (cellModel.Figure != null)
                     {
-                        UpdateFigure(row, col, cellModel.Figure);
+                        cellUI.UpdateFigure(cellModel.Figure);
                     }
                 }
             }
@@ -202,7 +202,7 @@ namespace chess1.UI
         }
 
         // Метод для получения клетки по координатам
-        public PictureBox GetCell(int row, int col)
+        public CellUI GetCell(int row, int col)
         {
             if (row >= 0 && row < 8 && col >= 0 && col < 8) {
                 Cell modelCell = board.GetCellAt(col, row);
@@ -213,58 +213,5 @@ namespace chess1.UI
             return null;
         }
 
-        public void UpdateFigure(int row, int col, Figure figure)
-        {
-            PictureBox cell = GetCell(row, col);
-            if (cell != null)
-            {
-                Image pieceImage = ImageLoader.GetFigureImage(figure);
-                cell.Image = pieceImage;
-            }
-        }
-
-        public void SetCellBoarder(int row, int col)
-        {
-            PictureBox cell = GetCell(row, col);
-
-            cell.Paint += borderPaintHandler;
-            cell.Invalidate();
-        }
-
-        public void ClearCellBoarder(PictureBox selectedCell)
-        {
-            if (selectedCell != null)
-            {
-                selectedCell.Paint -= borderPaintHandler;
-                selectedCell.Invalidate(); // Перерисовываем без рамки
-            }
-        }
-
-        private void DrawYellowBorder(object sender, PaintEventArgs e)
-        {
-            PictureBox cell = sender as PictureBox;
-            if (cell == null) return;
-
-            using (Pen yellowPen = new Pen(Color.Yellow, 3))
-            {
-                e.Graphics.DrawRectangle(yellowPen,
-                    new Rectangle(0, 0, cell.Width - 1, cell.Height - 1));
-            }
-        }
-
-        private PictureBox CreateCellUI(int row, int col, int cellSize, Color color)
-        {
-            PictureBox cell = new PictureBox();
-            cell.Size = new Size(cellSize, cellSize);
-            cell.SizeMode = PictureBoxSizeMode.Zoom;  // Изображение вписывается в клетку
-
-            Cell modelCell = board.GetCellAt(col, row);
-            cell.BackColor = color;
-
-            cell.Tag = new Position(row, col);
-            cell.Click += Cell_Click;
-
-            return cell;
-        }
     }
 }

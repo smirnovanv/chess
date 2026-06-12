@@ -17,7 +17,6 @@ namespace chess1
         private TopPanelUI topPanel;
         private BoardContainerUI boardContainerUI;
         private Board board;
-        private Cell selectedStartCell;
 
         public GameBoard()
         {
@@ -25,7 +24,6 @@ namespace chess1
             SetWindowSettings(900, 700);
             InitializeUI();
             InitializeBoardUI();
-            //InitializeGame();
         }
 
         private void GameBoard_Load(object sender, EventArgs e)
@@ -73,7 +71,10 @@ namespace chess1
             {
                 Cell startCell = board.GetCellAt(pos.Col, pos.Row);
                 board.selectedStartCell = startCell;
-                boardContainerUI.SetCellBoarder(pos.Row, pos.Col);
+
+                CellUI cellUI = boardContainerUI.GetCell(pos.Row, pos.Col);
+                cellUI.SetStartBorder();
+
                 return;
 
             }
@@ -94,20 +95,19 @@ namespace chess1
             if (isMoveAvailable) {
                 board.MoveFigure(prevSelectedCell, currSelectedCell);
 
-                
-                boardContainerUI.UpdateFigure(prevSelectedCellPosition.Row, prevSelectedCellPosition.Col, null);
-                boardContainerUI.UpdateFigure(currSelectedCellPosition.Row, currSelectedCellPosition.Col, movingFigure);
+                CellUI prevCellUI = boardContainerUI.GetCell(prevSelectedCellPosition.Row, prevSelectedCellPosition.Col);
+                CellUI currCellUI = boardContainerUI.GetCell(currSelectedCellPosition.Row, currSelectedCellPosition.Col);
+                prevCellUI.UpdateFigure(null);
+                currCellUI.UpdateFigure(movingFigure);
             }
 
             if (board.selectedStartCell != null) 
             {
                 
-                PictureBox cellUI = boardContainerUI.GetCell(prevSelectedCellPosition.Row, prevSelectedCellPosition.Col);
+                CellUI cellUI = boardContainerUI.GetCell(prevSelectedCellPosition.Row, prevSelectedCellPosition.Col);
 
                 board.selectedStartCell = null;
-                boardContainerUI.ClearCellBoarder(cellUI);
-
-                
+                cellUI.ClearStartBorder();
             }
 
             if (!isMoveAvailable)
@@ -115,7 +115,8 @@ namespace chess1
                 // делаем новую
                 Cell startCell = board.GetCellAt(pos.Col, pos.Row);
                 board.selectedStartCell = startCell;
-                boardContainerUI.SetCellBoarder(pos.Row, pos.Col);
+                CellUI startCellUI = boardContainerUI.GetCell(pos.Row, pos.Col);
+                startCellUI.SetStartBorder();
             }
 
         }
