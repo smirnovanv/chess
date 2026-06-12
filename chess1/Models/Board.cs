@@ -10,7 +10,7 @@ namespace chess1.Models
     {
         private Cell[,] cells;
         public const int Size = 8;
-        public Cell selectedStartCell;
+        public Cell LastSelectedCell;
 
         public Board()
         {
@@ -43,11 +43,14 @@ namespace chess1.Models
 
         public Figure GetFigureAt(Position pos)
         {
-            //if (IsValidPosition(pos))
-            //    return pieces[pos.Row, pos.Col];
-            //return null;
+            if (IsValidPosition(pos)) 
+            {
+                return cells[pos.Row, pos.Col].Figure;
+            }
+                
+            return null;
 
-            return cells[pos.Row, pos.Col].Figure;
+           
         }
 
         public Cell GetCellAt(int col, int row)
@@ -58,8 +61,7 @@ namespace chess1.Models
         public void MoveFigure(Cell startCell, Cell endCell)
         {
             Figure movingFigure = startCell.Figure;
-            
-            if (startCell.Figure != null && endCell.Figure == null)
+            if (startCell.Figure != null)
             {
                 startCell.Figure = null;
                 endCell.Figure = movingFigure;
@@ -67,5 +69,13 @@ namespace chess1.Models
             }
         }
 
+        public bool IsEmptyCell(Position pos) {
+            return GetFigureAt(pos) == null;
+        }
+
+        public bool IsValidPosition(Position pos)
+        {
+            return pos.Row >= 0 && pos.Row < Size && pos.Col >= 0 && pos.Col < Size;
+        }
     }
 }

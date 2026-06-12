@@ -17,12 +17,15 @@ namespace chess1
         private TopPanelUI topPanel;
         private BoardContainerUI boardContainerUI;
         private Board board;
+        private FigureColor CurrentPlayerColor;
+        private List<Position> possibleMoves;
 
         public GameBoard()
         {
             InitializeComponent();
             SetWindowSettings(900, 700);
             InitializeUI();
+            CurrentPlayerColor = FigureColor.White;
             InitializeBoardUI();
         }
 
@@ -61,65 +64,125 @@ namespace chess1
             }
         }
 
+        private bool IsPlayerFigure(Cell cell)
+        {
+            Figure figure = cell.Figure;
+
+            return figure != null && (figure.Color == CurrentPlayerColor);
+        }
+
         private void OnCellClicked(object sender, Position pos)
         {
-            Cell prevSelectedCell = board.selectedStartCell;
+            Cell prevSelectedCell = board.LastSelectedCell; // модель пред. клетки
 
-            Cell currSelectedCell = board.GetCellAt(pos.Col, pos.Row);
+            Cell currSelectedCell = board.GetCellAt(pos.Col, pos.Row); // модель текущей клетки
 
-            if (prevSelectedCell == null) 
+            // ВАРИАНТ О Первый выбор, клетка пустая или с фигурой противника
+            if (prevSelectedCell == null && !IsPlayerFigure(currSelectedCell))
             {
-                Cell startCell = board.GetCellAt(pos.Col, pos.Row);
-                board.selectedStartCell = startCell;
-
-                CellUI cellUI = boardContainerUI.GetCell(pos.Row, pos.Col);
-                cellUI.SetStartBorder();
-
                 return;
-
             }
 
-            Position prevSelectedCellPosition = prevSelectedCell.Position;
-            Position currSelectedCellPosition = currSelectedCell.Position;
+            // ВАРИАНТ 1 Первый выбор, клетка со своей фигурой
+            if (prevSelectedCell == null && IsPlayerFigure(currSelectedCell))
+            {
+                SelectPlayerStartFigure(pos);
+                return;
+            }
 
-            bool isSameCell = prevSelectedCellPosition.Row == currSelectedCellPosition.Row && prevSelectedCellPosition.Col == currSelectedCellPosition.Col;
+            // к этому моменту своя фигура была ранее выбрана
+            bool isSameCell = IsSamePosition(prevSelectedCell.Position, currSelectedCell.Position);
 
-            // Временное сообщение для теста
-            // MessageBox.Show($"Клик по клетке {pos.Row}, {pos.Col}", "Координаты");
+            // ВАРИАНТ 2. Та же клетка
+            if (isSameCell) 
+            {
+                return;
+            }
 
-            // обнуляем пред. обводку
-            bool isMoveAvailable = prevSelectedCell.Figure != null && !isSameCell && currSelectedCell.Figure == null;
+            // ВАРИАНТ 3. На новой клетке своя фигура -> пока переключаемся (потом рассмотреть рокировку)
+            if (IsPlayerFigure(currSelectedCell)) 
+            {
+                ClearPossibleMoves();
+                ClearSelectedCell();
+                SelectPlayerStartFigure(pos);
+                return;
+            }
 
-            Figure movingFigure = prevSelectedCell.Figure;
-
-            if (isMoveAvailable) {
+            // новая клетка подходит для хода (ходим - кушаем или просто ходим)
+            if (IsPossibleMove(pos)) 
+            {
+                Figure movingFigure = prevSelectedCell.Figure;
+                // перемещаем в модели
                 board.MoveFigure(prevSelectedCell, currSelectedCell);
 
-                CellUI prevCellUI = boardContainerUI.GetCell(prevSelectedCellPosition.Row, prevSelectedCellPosition.Col);
-                CellUI currCellUI = boardContainerUI.GetCell(currSelectedCellPosition.Row, currSelectedCellPosition.Col);
+                // перемещаем в UI
+                CellUI prevCellUI = boardContainerUI.GetCellUI(prevSelectedCell);
+                CellUI currCellUI = boardContainerUI.GetCellUI(currSelectedCell);
                 prevCellUI.UpdateFigure(null);
                 currCellUI.UpdateFigure(movingFigure);
-            }
 
-            if (board.selectedStartCell != null) 
+                ClearPossibleMoves();
+                ClearSelectedCell();
+                // ход завершен 1 TODO
+
+                return;
+            }
+        }
+
+        private void SelectPlayerStartFigure(Position pos)
+        {
+            Cell startCell = board.GetCellAt(pos.Col, pos.Row);
+            board.LastSelectedCell = startCell;
+
+            CellUI cellUI = boardContainerUI.GetCell(pos.Row, pos.Col);
+            cellUI.SetStartBorder();
+
+            possibleMoves = startCell.Figure.GetPossibleMoves(pos, board);
+
+            foreach (Position move in possibleMoves)
             {
-                
-                CellUI cellUI = boardContainerUI.GetCell(prevSelectedCellPosition.Row, prevSelectedCellPosition.Col);
-
-                board.selectedStartCell = null;
-                cellUI.ClearStartBorder();
+                CellUI targetCell = boardContainerUI.GetCell(move.Row, move.Col);
+                if (targetCell != null)
+                {
+                    targetCell.SetPossibleMoveBorder();
+                }
             }
+        }
 
-            if (!isMoveAvailable)
+        private bool IsSamePosition(Position pos1, Position pos2)
+        {
+            return pos1.Row == pos2.Row && pos1.Col == pos2.Col;
+        }
+
+        private void ClearPossibleMoves()
+        {
+            foreach (Position move in possibleMoves)
             {
-                // делаем новую
-                Cell startCell = board.GetCellAt(pos.Col, pos.Row);
-                board.selectedStartCell = startCell;
-                CellUI startCellUI = boardContainerUI.GetCell(pos.Row, pos.Col);
-                startCellUI.SetStartBorder();
+                CellUI targetCell = boardContainerUI.GetCell(move.Row, move.Col);
+                if (targetCell != null)
+                {
+                    targetCell.ClearPossibleMoveBorder();
+                }
             }
+
+            possibleMoves = null;
 
         }
 
+        private void ClearSelectedCell()
+        {
+            CellUI cellUI = boardContainerUI.GetCellUI(board.LastSelectedCell);
+            cellUI.ClearStartBorder();
+
+            board.LastSelectedCell = null; 
+        }
+
+        public bool IsPossibleMove(Position position)
+        {
+            if (possibleMoves == null) return false;
+
+            return possibleMoves.Any(move =>
+                move.Row == position.Row && move.Col == position.Col);
+        }
     }
 }

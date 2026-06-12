@@ -20,6 +20,9 @@ namespace chess1.UI
         private bool HasStartBorder;
         private PaintEventHandler StartBorderPaintHandler;
 
+        private bool HasPossibleMoveBorder;
+        private PaintEventHandler PossibleMoveBorderPaintHandler;
+
 
         public CellUI(int row, int col, int cellSize, Color backgroundColor)
         {
@@ -27,7 +30,9 @@ namespace chess1.UI
             CellField = CreateCellField(row, col, cellSize, backgroundColor);
             StartBorderPaintHandler = DrawStartBorder;
             HasStartBorder = false;
-            // todo отрисовать по модели
+
+            PossibleMoveBorderPaintHandler = DrawPossibleMoveBorder;
+            HasPossibleMoveBorder = false;
         }
 
         private PictureBox CreateCellField(int row, int col, int cellSize, Color color)
@@ -82,6 +87,44 @@ namespace chess1.UI
                 CellField.Invalidate();
             }
         }
-    
+
+        private void DrawPossibleMoveBorder(object sender, PaintEventArgs e)
+        {
+            PictureBox cell = sender as PictureBox;
+            if (cell == null) return;
+
+            using (Pen greenPen = new Pen(Color.Green, 3))
+            {
+                e.Graphics.DrawRectangle(greenPen,
+                    new Rectangle(0, 0, cell.Width - 1, cell.Height - 1));
+            }
+        }
+
+        public void SetPossibleMoveBorder()
+        {
+            if (!HasPossibleMoveBorder)
+            {
+                HasPossibleMoveBorder = true;
+                CellField.Paint += PossibleMoveBorderPaintHandler;
+                CellField.Invalidate();
+            }
+        }
+
+        public void ClearPossibleMoveBorder()
+        {
+            if (HasPossibleMoveBorder)
+            {
+                HasPossibleMoveBorder = false;
+                CellField.Paint -= PossibleMoveBorderPaintHandler;
+                CellField.Invalidate();
+            }
+        }
+
+        public void ClearAllBorders()
+        {
+            ClearStartBorder();
+            ClearPossibleMoveBorder();
+        }
+
     }
 }

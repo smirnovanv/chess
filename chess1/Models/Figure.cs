@@ -10,8 +10,7 @@ namespace chess1.Models
     {
         public FigureType Type { get; protected set; }
         public FigureColor Color { get; set; }
-        public Position Position { get; set; } // todo возможно убрать
 
-        // допустимые ходы
+        public abstract List<Position> GetPossibleMoves(Position currPosition, Board board);
     }
 }

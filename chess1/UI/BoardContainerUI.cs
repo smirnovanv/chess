@@ -213,5 +213,10 @@ namespace chess1.UI
             return null;
         }
 
+        public CellUI GetCellUI(Cell modelCell)
+        {
+          return cellToPictureBox[modelCell];
+        }
+
     }
 }
