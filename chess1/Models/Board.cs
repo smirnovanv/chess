@@ -39,7 +39,7 @@ namespace chess1.Models
             }
 
 
-            // заполняем пешками (пока отдельно)
+            // заполняем фигурами
 
             for (int i = 0; i < 8; i++)
             {
@@ -57,6 +57,16 @@ namespace chess1.Models
             cells[0, 5].UpdateFigure(new Bishop(FigureColor.Black));
             cells[7, 2].UpdateFigure(new Bishop(FigureColor.White));
             cells[7, 5].UpdateFigure(new Bishop(FigureColor.White));
+
+            cells[0, 0].UpdateFigure(new Rook(FigureColor.Black));
+            cells[0, 7].UpdateFigure(new Rook(FigureColor.Black));
+            cells[7, 0].UpdateFigure(new Rook(FigureColor.White));
+            cells[7, 7].UpdateFigure(new Rook(FigureColor.White));
+
+            cells[0, 1].UpdateFigure(new Knight(FigureColor.Black));
+            cells[0, 6].UpdateFigure(new Knight(FigureColor.Black));
+            cells[7, 1].UpdateFigure(new Knight(FigureColor.White));
+            cells[7, 6].UpdateFigure(new Knight(FigureColor.White));
         }
 
         public Figure GetFigureAt(Position pos)
