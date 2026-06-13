@@ -22,12 +22,16 @@ namespace chess1.UI
 
         private bool HasPossibleMoveBorder;
         private PaintEventHandler PossibleMoveBorderPaintHandler;
+        private Cell CellModel;
 
 
-        public CellUI(int row, int col, int cellSize, Color backgroundColor)
+        public CellUI(int cellSize, Cell cellModel) // todo refactor
         {
-            Position = new Position(row, col);
-            CellField = CreateCellField(row, col, cellSize, backgroundColor);
+            Position = cellModel.Position;
+            Color color = cellModel.Type == CellType.Light ? Color.FromArgb(240, 217, 181)  // Светлая
+                        : Color.FromArgb(181, 136, 99);
+            CellField = CreateCellField(Position.Row, Position.Col, cellSize, color);
+            CellModel = cellModel;
             StartBorderPaintHandler = DrawStartBorder;
             HasStartBorder = false;
 
@@ -51,8 +55,9 @@ namespace chess1.UI
             CellField.Click += clickHandler;
         }
 
-        public void UpdateFigure(Figure figure)
+        public void UpdateFigure()
         {
+            Figure figure = CellModel.Figure;
             Image pieceImage = ImageLoader.GetFigureImage(figure);
             CellField.Image = pieceImage;
         }

@@ -173,10 +173,8 @@ namespace chess1.UI
                 {
 
                     Cell cellModel = board.GetCellAt(col, row);
-                    Color color = cellModel.Type == CellType.Light ? Color.FromArgb(240, 217, 181)  // Светлая
-                        : Color.FromArgb(181, 136, 99);
 
-                    CellUI cellUI = new CellUI(row, col, cellSize, color);
+                    CellUI cellUI = new CellUI(cellSize, cellModel);
 
                     cellUI.SubscribeToClick(Cell_Click);
 
@@ -186,7 +184,7 @@ namespace chess1.UI
                     // отрисовка фигур
                     if (cellModel.Figure != null)
                     {
-                        cellUI.UpdateFigure(cellModel.Figure);
+                        cellUI.UpdateFigure();
                     }
                 }
             }

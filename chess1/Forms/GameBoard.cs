@@ -17,15 +17,12 @@ namespace chess1
         private TopPanelUI topPanel;
         private BoardContainerUI boardContainerUI;
         private Board board;
-        private FigureColor CurrentPlayerColor;
-        private List<Position> possibleMoves;
         private TableLayoutPanel mainLayout;
 
         public GameBoard()
         {
             InitializeComponent();
             SetWindowSettings(900, 700);
-            CurrentPlayerColor = FigureColor.White;
             InitializeUI();
         }
 
@@ -36,7 +33,6 @@ namespace chess1
 
         private void InitializeUI()
         {
-
             mainLayout = new TableLayoutPanel();
             mainLayout.Dock = DockStyle.Fill;
             mainLayout.RowCount = 2;
@@ -73,43 +69,16 @@ namespace chess1
             }
         }
 
-        private bool IsPlayerFigure(Cell cell)
-        {
-            Figure figure = cell.Figure;
-
-            return figure != null && (figure.Color == CurrentPlayerColor);
-        }
-
         private void OnCellClicked(object sender, Position pos)
         {
             Cell prevSelectedCell = board.LastSelectedCell; // модель пред. клетки
 
             Cell currSelectedCell = board.GetCellAt(pos.Col, pos.Row); // модель текущей клетки
 
-            // ВАРИАНТ О Первый выбор, клетка пустая или с фигурой противника
-            if (prevSelectedCell == null && !IsPlayerFigure(currSelectedCell))
-            {
-                return;
-            }
+            bool isFigureSelection = board.IsFigureSelection(prevSelectedCell, currSelectedCell);
 
-            // ВАРИАНТ 1 Первый выбор, клетка со своей фигурой
-            if (prevSelectedCell == null && IsPlayerFigure(currSelectedCell))
-            {
-                SelectPlayerStartFigure(pos);
-                return;
-            }
-
-            // к этому моменту своя фигура была ранее выбрана
-            bool isSameCell = IsSamePosition(prevSelectedCell.Position, currSelectedCell.Position);
-
-            // ВАРИАНТ 2. Та же клетка
-            if (isSameCell) 
-            {
-                return;
-            }
-
-            // ВАРИАНТ 3. На новой клетке своя фигура -> пока переключаемся (потом рассмотреть рокировку)
-            if (IsPlayerFigure(currSelectedCell)) 
+            // выбор своей фигуры без хода
+            if (isFigureSelection) 
             {
                 ClearPossibleMoves();
                 ClearSelectedCell();
@@ -118,17 +87,17 @@ namespace chess1
             }
 
             // новая клетка подходит для хода (ходим - кушаем или просто ходим)
-            if (IsPossibleMove(pos)) 
+            if (board.IsPossibleMove(pos)) 
             {
                 Figure movingFigure = prevSelectedCell.Figure;
                 // перемещаем в модели
-                board.MoveFigure(prevSelectedCell, currSelectedCell);
+                List<Cell> cellsToUpdate = board.MoveFigure(prevSelectedCell, currSelectedCell); // вернуть список клето для апдейта фигур
 
-                // перемещаем в UI
-                CellUI prevCellUI = boardContainerUI.GetCellUI(prevSelectedCell);
-                CellUI currCellUI = boardContainerUI.GetCellUI(currSelectedCell);
-                prevCellUI.UpdateFigure(null);
-                currCellUI.UpdateFigure(movingFigure);
+                foreach (Cell cellToUpdate in cellsToUpdate) 
+                {
+                    CellUI cellUI = boardContainerUI.GetCellUI(cellToUpdate);
+                    cellUI.UpdateFigure();
+                }
 
                 ClearPossibleMoves();
                 ClearSelectedCell();
@@ -147,9 +116,9 @@ namespace chess1
             CellUI cellUI = boardContainerUI.GetCell(pos.Row, pos.Col);
             cellUI.SetStartBorder();
 
-            possibleMoves = startCell.Figure.GetPossibleMoves(pos, board);
+            board.possibleMoves = startCell.Figure.GetPossibleMoves(pos, board);
 
-            foreach (Position move in possibleMoves)
+            foreach (Position move in board.possibleMoves)
             {
                 CellUI targetCell = boardContainerUI.GetCell(move.Row, move.Col);
                 if (targetCell != null)
@@ -159,14 +128,14 @@ namespace chess1
             }
         }
 
-        private bool IsSamePosition(Position pos1, Position pos2)
-        {
-            return pos1.Row == pos2.Row && pos1.Col == pos2.Col;
-        }
-
         private void ClearPossibleMoves()
         {
-            foreach (Position move in possibleMoves)
+            if (board.possibleMoves == null)
+            {
+                return;
+            }
+
+            foreach (Position move in board.possibleMoves)
             {
                 CellUI targetCell = boardContainerUI.GetCell(move.Row, move.Col);
                 if (targetCell != null)
@@ -175,36 +144,33 @@ namespace chess1
                 }
             }
 
-            possibleMoves = null;
+            board.possibleMoves = null;
 
         }
 
         private void ClearSelectedCell()
         {
+            if (board.LastSelectedCell == null)
+            {
+                return;
+            }
+
             CellUI cellUI = boardContainerUI.GetCellUI(board.LastSelectedCell);
             cellUI.ClearStartBorder();
 
             board.LastSelectedCell = null; 
         }
 
-        private bool IsPossibleMove(Position position)
-        {
-            if (possibleMoves == null) return false;
-
-            return possibleMoves.Any(move =>
-                move.Row == position.Row && move.Col == position.Col);
-        }
-
         private void TogglePlayerColor()
         {
-            if (CurrentPlayerColor == FigureColor.White) 
+            if (board.CurrentPlayerColor == FigureColor.White) 
             {
-                CurrentPlayerColor = FigureColor.Black;
+                board.CurrentPlayerColor = FigureColor.Black;
                 topPanel.SetTurnText("Ход черных");
 
             } else
             {
-                CurrentPlayerColor = FigureColor.White;
+                board.CurrentPlayerColor = FigureColor.White;
                 topPanel.SetTurnText("Ход белых");
             }
         }

@@ -12,6 +12,8 @@ namespace chess1.Models
         public const int Size = 8;
         public Cell LastSelectedCell;
         private Stack<Move> moveHistory; // Стек для истории ходов
+        public FigureColor CurrentPlayerColor;
+        public List<Position> possibleMoves;
 
         // Событие для уведомления о новом ходе
         public event EventHandler<Move> MoveMade;
@@ -19,6 +21,7 @@ namespace chess1.Models
         {
             cells = new Cell[Size, Size];
             moveHistory = new Stack<Move>();
+            CurrentPlayerColor = FigureColor.White;
             InitializeBoard();
         }
 
@@ -56,8 +59,6 @@ namespace chess1.Models
             }
                 
             return null;
-
-           
         }
 
         public Cell GetCellAt(int col, int row)
@@ -65,24 +66,23 @@ namespace chess1.Models
             return cells[row, col];
         }
 
-        public void MoveFigure(Cell startCell, Cell endCell)
+        public List<Cell> MoveFigure(Cell startCell, Cell endCell)
         {
             Figure movingFigure = startCell.Figure;
             Figure capturedFigure = endCell.Figure;
 
-            if (startCell.Figure != null)
-            {
-                startCell.Figure = null;
-                endCell.Figure = movingFigure;
+            List<Cell> cellsToUpdate = new List<Cell> { startCell, endCell};
 
+            startCell.Figure = null;
+            endCell.Figure = movingFigure;
 
-                // Сохраняем ход в историю
-                Move move = new Move(startCell.Position, endCell.Position, movingFigure, capturedFigure);
-                moveHistory.Push(move);
+            // Сохраняем ход в историю
+            Move move = new Move(startCell.Position, endCell.Position, movingFigure, capturedFigure);
+            moveHistory.Push(move);
 
-                MoveMade?.Invoke(this, move);
+            MoveMade?.Invoke(this, move); // для истории
 
-            }
+            return cellsToUpdate;
         }
 
         public List<Move> GetAllMoves()
@@ -98,5 +98,36 @@ namespace chess1.Models
         {
             return pos.Row >= 0 && pos.Row < Size && pos.Col >= 0 && pos.Col < Size;
         }
+    
+        public bool IsFigureSelection(Cell prevSelectedCell, Cell currSelectedCell)
+        {
+            if (prevSelectedCell == null && IsPlayerFigure(currSelectedCell))
+            {
+                return true;
+            }
+
+            if (IsPlayerFigure(currSelectedCell) && !IsPossibleMove(currSelectedCell.Position))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool IsPlayerFigure(Cell cell)
+        {
+            Figure figure = cell.Figure;
+
+            return figure != null && (figure.Color == CurrentPlayerColor);
+        }
+
+        public bool IsPossibleMove(Position position)
+        {
+            if (possibleMoves == null) return false;
+
+            return possibleMoves.Any(move =>
+                move.Row == position.Row && move.Col == position.Col);
+        }
+
     }
 }
