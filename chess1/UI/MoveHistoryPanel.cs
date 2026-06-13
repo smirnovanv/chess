@@ -17,6 +17,18 @@ namespace chess1.UI
 
         public Panel Panel => panel;
 
+        private readonly List<string> ColumnNames = new List<string> { "a", "b", "c", "d", "e", "f", "g", "h" };
+
+        private static readonly Dictionary<FigureType, string> FigureSymbols = new Dictionary<FigureType, string>
+        {
+            { FigureType.Pawn, "" },
+            { FigureType.Knight, "N" },
+            { FigureType.Bishop, "B" },
+            { FigureType.Rook, "R" },
+            { FigureType.Queen, "Q" },
+            { FigureType.King, "K" }
+        };
+
         public MoveHistoryPanel(Board board)
         {
             this.board = board;
@@ -49,17 +61,8 @@ namespace chess1.UI
             moveHistoryListBox.IntegralHeight = false;
             moveHistoryListBox.BackColor = Color.White;
 
-            // Кнопка очистки
-            //Button clearButton = new Button();
-            //clearButton.Text = "Очистить историю";
-            //clearButton.Dock = DockStyle.Bottom;
-            //clearButton.Height = 30;
-            //clearButton.BackColor = Color.FromArgb(220, 220, 220);
-            //clearButton.FlatStyle = FlatStyle.Flat;
-            //clearButton.Click += (s, e) => ClearHistory();
 
             panel.Controls.Add(moveHistoryListBox);
-            //panel.Controls.Add(clearButton);
             panel.Controls.Add(titleLabel);
         }
 
@@ -81,6 +84,7 @@ namespace chess1.UI
                 if (i % 2 == 0) // Ход белых
                 {
                     string moveText = $"{moveNumber}. {FormatMove(moves[i])}";
+                    
                     if (i + 1 < moves.Count) // Ход черных
                     {
                         moveText += $" | {FormatMove(moves[i + 1])}";
@@ -98,34 +102,17 @@ namespace chess1.UI
 
         private string FormatMove(Move move)
         {
-            // Простое форматирование хода
-            string pieceSymbol = GetPieceSymbol(move.Piece.Type);
-            string from = $"{((char)('a' + move.From.Col))}{8 - move.From.Row}";
-            string to = $"{((char)('a' + move.To.Col))}{8 - move.To.Row}";
+            string pieceSymbol = GetFigureSymbol(move.Piece.Type);
+            string from = $"{ColumnNames[move.From.Col]}{8 - move.From.Row}";
+            string to = $"{ColumnNames[move.To.Col]}{8 - move.To.Row}";
             string capture = move.CapturedPiece != null ? "x" : "";
 
             return $"{pieceSymbol}{from}{capture}{to}";
         }
 
-        private static readonly Dictionary<FigureType, string> PieceSymbols = new Dictionary<FigureType, string>
-{
-    { FigureType.Pawn, "" },
-    { FigureType.Knight, "N" },
-    { FigureType.Bishop, "B" },
-    { FigureType.Rook, "R" },
-    { FigureType.Queen, "Q" },
-    { FigureType.King, "K" }
-};
-
-        private string GetPieceSymbol(FigureType type)
+        private string GetFigureSymbol(FigureType type)
         {
-            return PieceSymbols.TryGetValue(type, out string symbol) ? symbol : "";
+            return FigureSymbols.TryGetValue(type, out string symbol) ? symbol : "";
         }
-
-        //public void ClearHistory()
-        //{
-        //    board.ClearHistory();
-        //    UpdateHistory();
-        //}
     }
 }
