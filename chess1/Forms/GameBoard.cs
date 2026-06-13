@@ -18,7 +18,7 @@ namespace chess1
         private BoardContainerUI boardContainerUI;
         private Board board;
         private TableLayoutPanel mainLayout;
-
+        private bool isGameOver = false;
         public GameBoard()
         {
             InitializeComponent();
@@ -57,6 +57,12 @@ namespace chess1
 
         private void BackButton_Click(object sender, EventArgs e)
         {
+            if (isGameOver)
+            {
+                this.Close();
+                return;
+            }
+
             DialogResult result = MessageBox.Show(
                 "Выйти из игры? Прогресс не будет сохранен.",
                 "Подтверждение",
@@ -71,6 +77,8 @@ namespace chess1
 
         private void OnCellClicked(object sender, Position pos)
         {
+            if (isGameOver) return;
+
             Cell prevSelectedCell = board.LastSelectedCell; // модель пред. клетки
 
             Cell currSelectedCell = board.GetCellAt(pos.Col, pos.Row); // модель текущей клетки
@@ -91,13 +99,19 @@ namespace chess1
             {
                 Figure movingFigure = prevSelectedCell.Figure;
                 // перемещаем в модели
+
+                if (currSelectedCell.Figure != null && currSelectedCell.Figure.Type == FigureType.King && currSelectedCell.Figure.Color != board.CurrentPlayerColor)
+                {
+                    isGameOver = true;
+                }
+
                 List<Cell> cellsToUpdate = board.MoveFigure(prevSelectedCell, currSelectedCell); // вернуть список клето для апдейта фигур
 
                 foreach (Cell cellToUpdate in cellsToUpdate) 
                 {
                     CellUI cellUI = boardContainerUI.GetCellUI(cellToUpdate);
                     cellUI.UpdateFigure();
-                }
+                } 
 
                 ClearPossibleMoves();
                 ClearSelectedCell();
@@ -177,6 +191,23 @@ namespace chess1
 
         private void HandleMoveEnd()
         {
+            if (isGameOver) 
+            {
+                if (board.CurrentPlayerColor == FigureColor.White)
+                {
+                    board.CurrentPlayerColor = FigureColor.Black;
+                    topPanel.SetTurnText("Победили черные");
+
+                }
+                else
+                {
+                    board.CurrentPlayerColor = FigureColor.White;
+                    topPanel.SetTurnText("Победили белые");
+                }
+
+                return;
+            }
+
             TogglePlayerColor();
         }
 
