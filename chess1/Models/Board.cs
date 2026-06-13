@@ -49,6 +49,14 @@ namespace chess1.Models
 
             cells[0, 4].UpdateFigure(new King(FigureColor.Black));
             cells[7, 4].UpdateFigure(new King(FigureColor.White));
+
+            cells[0, 3].UpdateFigure(new Queen(FigureColor.Black));
+            cells[7, 3].UpdateFigure(new Queen(FigureColor.White));
+
+            cells[0, 2].UpdateFigure(new Bishop(FigureColor.Black));
+            cells[0, 5].UpdateFigure(new Bishop(FigureColor.Black));
+            cells[7, 2].UpdateFigure(new Bishop(FigureColor.White));
+            cells[7, 5].UpdateFigure(new Bishop(FigureColor.White));
         }
 
         public Figure GetFigureAt(Position pos)
