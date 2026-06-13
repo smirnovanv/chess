@@ -66,6 +66,7 @@
     <Compile Include="Models\Cell.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\Figure.cs" />
+    <Compile Include="Models\King.cs" />
     <Compile Include="Models\Move.cs" />
     <Compile Include="Models\Pawn.cs" />
     <Compile Include="Models\Position.cs" />

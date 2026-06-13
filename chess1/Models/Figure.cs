@@ -12,5 +12,10 @@ namespace chess1.Models
         public FigureColor Color { get; set; }
 
         public abstract List<Position> GetPossibleMoves(Position currPosition, Board board);
+
+        public bool IsValidPosition(Position pos)
+        {
+            return pos.Row >= 0 && pos.Row < 8 && pos.Col >= 0 && pos.Col < 8;
+        }
     }
 }

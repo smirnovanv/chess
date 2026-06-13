@@ -83,7 +83,6 @@ namespace chess1.UI
             }
         }
 
-        // Метод для получения клетки по координатам
         public CellUI GetCell(int row, int col)
         {
             if (row >= 0 && row < 8 && col >= 0 && col < 8) {

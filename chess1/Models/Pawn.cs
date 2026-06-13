@@ -78,10 +78,5 @@ namespace chess1.Models
                 }
             }
         }
-
-        private bool IsValidPosition(Position pos)
-        {
-            return pos.Row >= 0 && pos.Row < 8 && pos.Col >= 0 && pos.Col < 8;
-        }
     }
 }

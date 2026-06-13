@@ -43,6 +43,9 @@ namespace chess1.Models
                 cells[1, i].UpdateFigure(new Pawn(FigureColor.Black));
                 cells[6, i].UpdateFigure(new Pawn(FigureColor.White));
             }
+
+            cells[0, 4].UpdateFigure(new King(FigureColor.Black));
+            cells[7, 4].UpdateFigure(new King(FigureColor.White));
         }
 
         public Figure GetFigureAt(Position pos)
