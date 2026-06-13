@@ -123,7 +123,8 @@ namespace chess1
 
                 ClearPossibleMoves();
                 ClearSelectedCell();
-                // ход завершен 1 TODO
+
+                HandleMoveEnd();
 
                 return;
             }
@@ -177,12 +178,33 @@ namespace chess1
             board.LastSelectedCell = null; 
         }
 
-        public bool IsPossibleMove(Position position)
+        private bool IsPossibleMove(Position position)
         {
             if (possibleMoves == null) return false;
 
             return possibleMoves.Any(move =>
                 move.Row == position.Row && move.Col == position.Col);
         }
+
+        private void TogglePlayerColor()
+        {
+            if (CurrentPlayerColor == FigureColor.White) 
+            {
+                CurrentPlayerColor = FigureColor.Black;
+                topPanel.SetTurnText("Ход черных");
+
+
+            } else
+            {
+                CurrentPlayerColor = FigureColor.White;
+                topPanel.SetTurnText("Ход белых");
+            }
+        }
+
+        private void HandleMoveEnd()
+        {
+            TogglePlayerColor();
+        }
+
     }
 }
