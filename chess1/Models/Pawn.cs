@@ -25,10 +25,16 @@ namespace chess1.Models
             AddForwardMove(currPosition, direction, board, possibleMoves);
 
             // 2. Проверка двойного хода
-            AddDoubleMove(currPosition, direction, startRow, board, possibleMoves);
+            if (!HasMoved) 
+            {
+                AddDoubleMove(currPosition, direction, startRow, board, possibleMoves);
+            }
 
             // 3. Проверка взятия по диагоналям
             AddDiagonalCaptures(currPosition, direction, board, possibleMoves);
+
+            // 4. Проверка взятия на проходе (en passant)
+            AddEnPassantMove(currPosition, direction, board, possibleMoves);
 
             return possibleMoves;
         }
@@ -44,15 +50,12 @@ namespace chess1.Models
 
         private void AddDoubleMove(Position current, int direction, int startRow, Board board, List<Position> moves)
         {
-            if (current.Row == startRow)
-            {
-                Position doubleForward = new Position(current.Row + 2 * direction, current.Col);
-                Position middle = new Position(current.Row + direction, current.Col);
+            Position doubleForward = new Position(current.Row + 2 * direction, current.Col);
+            Position middle = new Position(current.Row + direction, current.Col);
 
-                if (IsValidPosition(doubleForward) && board.IsEmptyCell(doubleForward) && board.IsEmptyCell(middle))
-                {
-                    moves.Add(doubleForward);
-                }
+            if (IsValidPosition(doubleForward) && board.IsEmptyCell(doubleForward) && board.IsEmptyCell(middle))
+            {
+                moves.Add(doubleForward);
             }
         }
 
@@ -78,5 +81,37 @@ namespace chess1.Models
                 }
             }
         }
+
+        private void AddEnPassantMove(Position current, int direction, Board board, List<Position> moves)
+        {
+            Move lastMove = board.GetLastMove();
+
+            if (lastMove == null) return;
+
+            if (lastMove.Piece is Pawn && Math.Abs(lastMove.From.Row - lastMove.To.Row) == 2)
+            {
+                int currentRow = current.Row;
+                int currentCol = current.Col;
+
+                if (currentCol - 1 == lastMove.To.Col && currentRow == lastMove.To.Row)
+                {
+                    Position enPassantPosition = new Position(current.Row + direction, current.Col - 1);
+                    if (IsValidPosition(enPassantPosition))
+                    {
+                        moves.Add(enPassantPosition);
+                    }
+                }
+
+                if (currentCol + 1 == lastMove.To.Col && currentRow == lastMove.To.Row)
+                {
+                    Position enPassantPosition = new Position(current.Row + direction, current.Col + 1);
+                    if (IsValidPosition(enPassantPosition))
+                    {
+                        moves.Add(enPassantPosition);
+                    }
+                }
+            }
+        }
+
     }
 }

@@ -73,7 +73,20 @@ namespace chess1.Models
 
             List<Cell> cellsToUpdate = new List<Cell> { startCell, endCell};
 
+            // для взятия на проходе
+            if (movingFigure is Pawn && startCell.Position.Col != endCell.Position.Col && endCell.Figure == null)
+            {
+                Position enPassantCapturedPosition = new Position(startCell.Position.Row, endCell.Position.Col);
+
+                capturedFigure = GetFigureAt(enPassantCapturedPosition); // для истории
+
+                Cell capturedCell = GetCellAt(enPassantCapturedPosition.Col, enPassantCapturedPosition.Row);
+                capturedCell.Figure = null;
+                cellsToUpdate.Add(capturedCell);
+            }
+
             startCell.Figure = null;
+            movingFigure.OnMove();
             endCell.Figure = movingFigure;
 
             // Сохраняем ход в историю
@@ -88,6 +101,16 @@ namespace chess1.Models
         public List<Move> GetAllMoves()
         {
             return moveHistory.Reverse().ToList(); // От более старых к новым
+        }
+
+        public Move GetLastMove()
+        {
+            if (moveHistory.Count == 0)
+            {
+                return null;
+            }
+
+            return moveHistory.Peek();
         }
 
         public bool IsEmptyCell(Position pos) {
