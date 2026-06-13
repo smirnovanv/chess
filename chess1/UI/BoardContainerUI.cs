@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,6 +17,7 @@ namespace chess1.UI
         private Dictionary<Cell, CellUI> cellToPictureBox;
         private TableLayoutPanel chessBoard;
         public Panel BoardContainer { get; private set; }
+        private MoveHistoryPanel moveHistoryPanel;
 
         public event EventHandler<Position> CellClicked;
 
@@ -26,9 +28,27 @@ namespace chess1.UI
         }
         private void CreateBoardContainer() 
         {
+            // все поле окна
             BoardContainer = new Panel();
             BoardContainer.Dock = DockStyle.Fill;
             BoardContainer.BackColor = Color.FromArgb(240, 240, 240);
+
+            // Создаем TableLayoutPanel табличная разметка для размещения истории и доски
+            TableLayoutPanel mainContainer = new TableLayoutPanel();
+            mainContainer.Dock = DockStyle.Fill;
+            mainContainer.ColumnCount = 2;
+            mainContainer.RowCount = 1;
+            mainContainer.BackColor = Color.FromArgb(240, 240, 240);
+
+            // Настройка колонок
+            mainContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 220)); // для - История ходов
+            mainContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));  //для - Доска
+
+
+            // создание контейнера блока доска + нотация
+            Panel boardPanel = new Panel();
+            boardPanel.Dock = DockStyle.Fill;
+            boardPanel.BackColor = Color.FromArgb(240, 240, 240);
 
             int boardWidth = 280;
             int cellSize = boardWidth / 8; // 35 пикселей на клетку
@@ -36,36 +56,103 @@ namespace chess1.UI
             int notationHeight = 24; // Высота для букв
 
             // Создаем главную панель, которая будет содержать нотацию и доску
+            TableLayoutPanel mainBoardPanel = CreateMainBoardPanel(boardWidth, notationWidth, notationHeight);
+            AddNotation(mainBoardPanel, cellSize, notationWidth, notationHeight);
+            AddChessBoard(mainBoardPanel, boardWidth, cellSize);
+
+            CenterPanel(mainBoardPanel, boardPanel);
+
+            boardPanel.Controls.Add(mainBoardPanel);
+
+            moveHistoryPanel = new MoveHistoryPanel(board);
+
+            mainContainer.Controls.Add(moveHistoryPanel.Panel, 0, 0);
+            mainContainer.Controls.Add(boardPanel, 1, 0);
+
+            // добавление в окно табличного лэйаута
+            BoardContainer.Controls.Add(mainContainer);
+        }
+
+        private void Cell_Click(object sender, EventArgs e)
+        {
+            PictureBox clickedCell = sender as PictureBox;
+            if (clickedCell != null && clickedCell.Tag is Position pos)
+            {
+                // Вызываем событие, передавая координаты
+                CellClicked?.Invoke(this, pos);
+            }
+        }
+
+        // Метод для получения клетки по координатам
+        public CellUI GetCell(int row, int col)
+        {
+            if (row >= 0 && row < 8 && col >= 0 && col < 8) {
+                Cell modelCell = board.GetCellAt(col, row);
+
+                return cellToPictureBox[modelCell];
+            }
+                
+            return null;
+        }
+
+        public CellUI GetCellUI(Cell modelCell)
+        {
+          return cellToPictureBox[modelCell];
+        }
+
+        private TableLayoutPanel CreateMainBoardPanel(int boardWidth, int notationWidth, int notationHeight)
+        {
             TableLayoutPanel mainBoardPanel = new TableLayoutPanel();
-            mainBoardPanel.Size = new Size(boardWidth + notationWidth * 2,
-                boardWidth + notationHeight * 2);
+            mainBoardPanel.Size = new Size(boardWidth + notationWidth * 2, boardWidth + notationHeight * 2);
             mainBoardPanel.ColumnCount = 3;
             mainBoardPanel.RowCount = 3;
             mainBoardPanel.BackColor = Color.Transparent;
             mainBoardPanel.Anchor = AnchorStyles.None;
 
-            // Настройка размеров колонок и строк
-            mainBoardPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, notationWidth)); // Левая нумерация
-            mainBoardPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, boardWidth)); // Доска
-            mainBoardPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, notationWidth)); // Правая нумерация
+            // Настройка размеров
+            mainBoardPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, notationWidth));
+            mainBoardPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, boardWidth));
+            mainBoardPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, notationWidth));
 
-            mainBoardPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, notationHeight)); // Верхние буквы
-            mainBoardPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, boardWidth));     // Доска
-            mainBoardPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, notationHeight)); // Нижние буквы
+            mainBoardPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, notationHeight));
+            mainBoardPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, boardWidth));
+            mainBoardPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, notationHeight));
 
-            // ========== ВЕРХНИЕ БУКВЫ (A-H) ==========
-            Panel topLettersPanel = CreateLettersPanel(cellSize, notationHeight);
+            return mainBoardPanel;
+        }
 
-            // ========== ЛЕВЫЕ ЦИФРЫ (8-1) ==========
-            Panel leftNumbersPanel = CreateNumbersPanel(cellSize, notationWidth);
+        private void AddNotation(TableLayoutPanel mainBoardPanel, int cellSize, int notationWidth, int notationHeight)
+        {
+            // Верхние буквы
+            Panel topLetters = NotationPanelBuilder.CreateLettersPanel(cellSize, notationHeight);
+            mainBoardPanel.Controls.Add(topLetters, 1, 0);
 
-            // ========== ПРАВЫЕ ЦИФРЫ (8-1) ==========
-            Panel rightNumbersPanel = CreateNumbersPanel(cellSize, notationWidth);
+            // Нижние буквы
+            Panel bottomLetters = NotationPanelBuilder.CreateLettersPanel(cellSize, notationHeight);
+            mainBoardPanel.Controls.Add(bottomLetters, 1, 2);
 
-            // ========== НИЖНИЕ БУКВЫ (A-H) ==========
-            Panel bottomLettersPanel = CreateLettersPanel(cellSize, notationHeight);
+            // Левые цифры
+            Panel leftNumbers = NotationPanelBuilder.CreateNumbersPanel(cellSize, notationWidth);
+            mainBoardPanel.Controls.Add(leftNumbers, 0, 1);
 
-            // Шахматная доска
+            // Правые цифры
+            Panel rightNumbers = NotationPanelBuilder.CreateNumbersPanel(cellSize, notationWidth);
+            mainBoardPanel.Controls.Add(rightNumbers, 2, 1);
+
+            // Углы
+            Panel topLeftCorner = NotationPanelBuilder.CreateEmptyCorner(notationWidth, notationHeight);
+            Panel topRightCorner = NotationPanelBuilder.CreateEmptyCorner(notationWidth, notationHeight);
+            Panel bottomLeftCorner = NotationPanelBuilder.CreateEmptyCorner(notationWidth, notationHeight);
+            Panel bottomRightCorner = NotationPanelBuilder.CreateEmptyCorner(notationWidth, notationHeight);
+
+            mainBoardPanel.Controls.Add(topLeftCorner, 0, 0);
+            mainBoardPanel.Controls.Add(topRightCorner, 2, 0);
+            mainBoardPanel.Controls.Add(bottomLeftCorner, 0, 2);
+            mainBoardPanel.Controls.Add(bottomRightCorner, 2, 2);
+        }
+    
+        private void AddChessBoard(TableLayoutPanel mainBoardPanel, int boardWidth, int cellSize)
+        {
             chessBoard = new TableLayoutPanel();
             chessBoard.Size = new Size(boardWidth, boardWidth);
             chessBoard.ColumnCount = 8;
@@ -105,117 +192,15 @@ namespace chess1.UI
                 }
             }
 
-            // Угловые пустые панели
-            Panel topLeftCorner = CreateEmptyCorner(notationWidth, notationHeight);
-            Panel topRightCorner = CreateEmptyCorner(notationWidth, notationHeight);
-            Panel bottomLeftCorner = CreateEmptyCorner(notationWidth, notationHeight);
-            Panel bottomRightCorner = CreateEmptyCorner(notationWidth, notationHeight);
-
-            // Добавляем все элементы в mainBoardPanel
-            // Row 0 (верхняя)
-            mainBoardPanel.Controls.Add(topLeftCorner, 0, 0);
-            mainBoardPanel.Controls.Add(topLettersPanel, 1, 0);
-            mainBoardPanel.Controls.Add(topRightCorner, 2, 0);
-
-            // Row 1 (средняя - доска и цифры)
-            mainBoardPanel.Controls.Add(leftNumbersPanel, 0, 1);
             mainBoardPanel.Controls.Add(chessBoard, 1, 1);
-            mainBoardPanel.Controls.Add(rightNumbersPanel, 2, 1);
+        }
 
-            // Row 2 (нижняя)
-            mainBoardPanel.Controls.Add(bottomLeftCorner, 0, 2);
-            mainBoardPanel.Controls.Add(bottomLettersPanel, 1, 2);
-            mainBoardPanel.Controls.Add(bottomRightCorner, 2, 2);
-
-            // Центрируем всю панель с нотацией
-            mainBoardPanel.Anchor = AnchorStyles.None;
-            mainBoardPanel.Location = new Point(
-                (BoardContainer.Width - mainBoardPanel.Width) / 2,
-                (BoardContainer.Height - mainBoardPanel.Height) / 2
+        private void CenterPanel(TableLayoutPanel panel, Control parent)
+        {
+            panel.Location = new Point(
+                (parent.Width - panel.Width) / 2,
+                (parent.Height - panel.Height) / 2
             );
-
-            BoardContainer.Controls.Add(mainBoardPanel);
-        }
-
-        private Panel CreateLettersPanel(int cellSize, int height)
-        {
-            Panel panel = new Panel();
-            panel.Size = new Size(cellSize * 8, height);
-            panel.BackColor = Color.FromArgb(240, 240, 240);
-
-            char[] letters = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' };
-            for (int i = 0; i < 8; i++)
-            {
-                Label letterLabel = new Label();
-                letterLabel.Text = letters[i].ToString();
-                letterLabel.Font = new Font("Segoe UI", 9, FontStyle.Bold);
-                letterLabel.ForeColor = Color.FromArgb(80, 80, 80);
-                letterLabel.TextAlign = ContentAlignment.MiddleCenter;
-                letterLabel.Size = new Size(cellSize, height);
-                letterLabel.Location = new Point(i * cellSize, 0);
-                letterLabel.BackColor = Color.Transparent;
-
-                panel.Controls.Add(letterLabel);
-            }
-
-            return panel;
-        }
-
-        private Panel CreateNumbersPanel(int cellSize, int width)
-        {
-            Panel panel = new Panel();
-            panel.Size = new Size(width, cellSize * 8);
-            panel.BackColor = Color.FromArgb(240, 240, 240);
-
-            for (int i = 0; i < 8; i++)
-            {
-                Label numberLabel = new Label();
-                numberLabel.Text = (8 - i).ToString(); // 8,7,6,5,4,3,2,1
-                numberLabel.Font = new Font("Segoe UI", 9, FontStyle.Bold);
-                numberLabel.ForeColor = Color.FromArgb(80, 80, 80);
-                numberLabel.TextAlign = ContentAlignment.MiddleCenter;
-                numberLabel.Size = new Size(width, cellSize);
-                numberLabel.Location = new Point(0, i * cellSize);
-                numberLabel.BackColor = Color.Transparent;
-                panel.Controls.Add(numberLabel);
-            }
-
-            return panel;
-        }
-
-        private Panel CreateEmptyCorner(int width, int height)
-        {
-            Panel panel = new Panel();
-            panel.Size = new Size(width, height);
-            panel.BackColor = Color.FromArgb(240, 240, 240);
-            return panel;
-        }
-
-        private void Cell_Click(object sender, EventArgs e)
-        {
-            PictureBox clickedCell = sender as PictureBox;
-            if (clickedCell != null && clickedCell.Tag is Position pos)
-            {
-                // Вызываем событие, передавая координаты
-                CellClicked?.Invoke(this, pos);
-            }
-        }
-
-        // Метод для получения клетки по координатам
-        public CellUI GetCell(int row, int col)
-        {
-            if (row >= 0 && row < 8 && col >= 0 && col < 8) {
-                Cell modelCell = board.GetCellAt(col, row);
-
-                return cellToPictureBox[modelCell];
-            }
-                
-            return null;
-        }
-
-        public CellUI GetCellUI(Cell modelCell)
-        {
-          return cellToPictureBox[modelCell];
         }
 
     }

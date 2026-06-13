@@ -19,14 +19,14 @@ namespace chess1
         private Board board;
         private FigureColor CurrentPlayerColor;
         private List<Position> possibleMoves;
+        private TableLayoutPanel mainLayout;
 
         public GameBoard()
         {
             InitializeComponent();
             SetWindowSettings(900, 700);
-            InitializeUI();
             CurrentPlayerColor = FigureColor.White;
-            InitializeBoardUI();
+            InitializeUI();
         }
 
         private void GameBoard_Load(object sender, EventArgs e)
@@ -36,18 +36,27 @@ namespace chess1
 
         private void InitializeUI()
         {
+
+            mainLayout = new TableLayoutPanel();
+            mainLayout.Dock = DockStyle.Fill;
+            mainLayout.RowCount = 2;
+            mainLayout.ColumnCount = 1;
+
+            // Настройка размеров строк: первая строка фиксированной высоты, вторая занимает всё остальное
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 80)); // Верхняя панель
+            mainLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100)); // Остальное пространство
+
+            this.Controls.Add(mainLayout);
+
             topPanel = new TopPanelUI();
             topPanel.SubscribeToBackButton(BackButton_Click);
-            this.Controls.Add(topPanel.Panel);
-        }
+            mainLayout.Controls.Add(topPanel.Panel, 0, 0);
 
-        private void InitializeBoardUI()
-        {
             board = new Board();
             // Создаем контейнер с доской
             boardContainerUI = new BoardContainerUI(board);
             boardContainerUI.CellClicked += OnCellClicked;  // Подписываемся на событие
-            this.Controls.Add(boardContainerUI.BoardContainer);
+            mainLayout.Controls.Add(boardContainerUI.BoardContainer, 0, 1);
         }
 
         private void BackButton_Click(object sender, EventArgs e)
@@ -192,7 +201,6 @@ namespace chess1
             {
                 CurrentPlayerColor = FigureColor.Black;
                 topPanel.SetTurnText("Ход черных");
-
 
             } else
             {

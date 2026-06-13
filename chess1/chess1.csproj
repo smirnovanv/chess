@@ -66,12 +66,15 @@
     <Compile Include="Models\Cell.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\Figure.cs" />
+    <Compile Include="Models\Move.cs" />
     <Compile Include="Models\Pawn.cs" />
     <Compile Include="Models\Position.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\BoardContainerUI.cs" />
     <Compile Include="UI\CellUI.cs" />
+    <Compile Include="UI\MoveHistoryPanel.cs" />
+    <Compile Include="UI\NotationPanelBuilder.cs" />
     <Compile Include="UI\TopPanelUI.cs" />
     <EmbeddedResource Include="Forms\GameBoard.resx">
       <DependentUpon>GameBoard.cs</DependentUpon>

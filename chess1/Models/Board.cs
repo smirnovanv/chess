@@ -11,10 +11,14 @@ namespace chess1.Models
         private Cell[,] cells;
         public const int Size = 8;
         public Cell LastSelectedCell;
+        private Stack<Move> moveHistory; // Стек для истории ходов
 
+        // Событие для уведомления о новом ходе
+        public event EventHandler<Move> MoveMade;
         public Board()
         {
             cells = new Cell[Size, Size];
+            moveHistory = new Stack<Move>();
             InitializeBoard();
         }
 
@@ -61,12 +65,26 @@ namespace chess1.Models
         public void MoveFigure(Cell startCell, Cell endCell)
         {
             Figure movingFigure = startCell.Figure;
+            Figure capturedFigure = endCell.Figure;
+
             if (startCell.Figure != null)
             {
                 startCell.Figure = null;
                 endCell.Figure = movingFigure;
 
+
+                // Сохраняем ход в историю
+                Move move = new Move(startCell.Position, endCell.Position, movingFigure, capturedFigure);
+                moveHistory.Push(move);
+
+                MoveMade?.Invoke(this, move);
+
             }
+        }
+
+        public List<Move> GetAllMoves()
+        {
+            return moveHistory.Reverse().ToList(); // От более старых к новым
         }
 
         public bool IsEmptyCell(Position pos) {

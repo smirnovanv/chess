@@ -3,16 +3,36 @@
   "WorkspaceRootPath": "C:\\study\\semester4\\chess1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|C:\\study\\semester4\\chess1\\chess1\\forms\\gameboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|c:\\study\\semester4\\chess1\\chess1\\forms\\gameboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|solutionrelative:chess1\\forms\\gameboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|C:\\study\\semester4\\chess1\\chess1\\ui\\boardcontainerui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|solutionrelative:chess1\\ui\\boardcontainerui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|C:\\study\\semester4\\chess1\\chess1\\ui\\toppanelui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|solutionrelative:chess1\\ui\\toppanelui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|C:\\study\\semester4\\chess1\\chess1\\ui\\boardcontainerui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|solutionrelative:chess1\\ui\\boardcontainerui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|c:\\study\\semester4\\chess1\\chess1\\ui\\movehistorypanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|solutionrelative:chess1\\ui\\movehistorypanel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|C:\\study\\semester4\\chess1\\chess1\\models\\board.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|solutionrelative:chess1\\models\\board.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|c:\\study\\semester4\\chess1\\chess1\\ui\\notationpanelbuilder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|solutionrelative:chess1\\ui\\notationpanelbuilder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|c:\\study\\semester4\\chess1\\chess1\\models\\move.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|solutionrelative:chess1\\models\\move.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|C:\\study\\semester4\\chess1\\chess1\\models\\pawn.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|solutionrelative:chess1\\models\\pawn.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|C:\\study\\semester4\\chess1\\chess1\\ui\\cellui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -35,16 +55,8 @@
       "RelativeMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|solutionrelative:chess1\\models\\enums.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|C:\\study\\semester4\\chess1\\chess1\\models\\pawn.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|solutionrelative:chess1\\models\\pawn.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|C:\\study\\semester4\\chess1\\chess1\\models\\position.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|solutionrelative:chess1\\models\\position.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|C:\\study\\semester4\\chess1\\chess1\\models\\board.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|solutionrelative:chess1\\models\\board.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A0E5AA4D-C221-47A7-967F-3D59C32F9913}|chess1\\chess1.csproj|C:\\study\\semester4\\chess1\\chess1\\forms\\menu.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -78,7 +90,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -90,28 +102,55 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
+              "Title": "MoveHistoryPanel.cs",
+              "DocumentMoniker": "C:\\study\\semester4\\chess1\\chess1\\UI\\MoveHistoryPanel.cs",
+              "RelativeDocumentMoniker": "chess1\\UI\\MoveHistoryPanel.cs",
+              "ToolTip": "C:\\study\\semester4\\chess1\\chess1\\UI\\MoveHistoryPanel.cs",
+              "RelativeToolTip": "chess1\\UI\\MoveHistoryPanel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-13T13:16:00.671Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Move.cs",
+              "DocumentMoniker": "C:\\study\\semester4\\chess1\\chess1\\Models\\Move.cs",
+              "RelativeDocumentMoniker": "chess1\\Models\\Move.cs",
+              "ToolTip": "C:\\study\\semester4\\chess1\\chess1\\Models\\Move.cs",
+              "RelativeToolTip": "chess1\\Models\\Move.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-13T11:14:57.486Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "BoardContainerUI.cs",
               "DocumentMoniker": "C:\\study\\semester4\\chess1\\chess1\\UI\\BoardContainerUI.cs",
               "RelativeDocumentMoniker": "chess1\\UI\\BoardContainerUI.cs",
               "ToolTip": "C:\\study\\semester4\\chess1\\chess1\\UI\\BoardContainerUI.cs",
               "RelativeToolTip": "chess1\\UI\\BoardContainerUI.cs",
-              "ViewState": "AgIAAEQAAAAAAAAAAAAYwNkAAAAtAAAAAAAAAA==",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAMUAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-08T18:07:44.161Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 4,
               "Title": "Board.cs",
               "DocumentMoniker": "C:\\study\\semester4\\chess1\\chess1\\Models\\Board.cs",
               "RelativeDocumentMoniker": "chess1\\Models\\Board.cs",
               "ToolTip": "C:\\study\\semester4\\chess1\\chess1\\Models\\Board.cs",
               "RelativeToolTip": "chess1\\Models\\Board.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD4AAAAzAAAAAAAAAA==",
+              "ViewState": "AgIAAEYAAAAAAAAAAAAqwFIAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-08T20:26:59.682Z"
+              "WhenOpened": "2026-06-08T20:26:59.682Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -121,14 +160,14 @@
               "RelativeDocumentMoniker": "chess1\\Forms\\GameBoard.cs",
               "ToolTip": "C:\\study\\semester4\\chess1\\chess1\\Forms\\GameBoard.cs",
               "RelativeToolTip": "chess1\\Forms\\GameBoard.cs",
-              "ViewState": "AgIAAL8AAAAAAAAAAAAmwH0AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAgAAAAAAAAAAAArwDYAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-07T12:21:31.595Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 13,
               "Title": "Position.cs",
               "DocumentMoniker": "C:\\study\\semester4\\chess1\\chess1\\Models\\Position.cs",
               "RelativeDocumentMoniker": "chess1\\Models\\Position.cs",
@@ -140,19 +179,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 7,
               "Title": "Pawn.cs",
               "DocumentMoniker": "C:\\study\\semester4\\chess1\\chess1\\Models\\Pawn.cs",
               "RelativeDocumentMoniker": "chess1\\Models\\Pawn.cs",
               "ToolTip": "C:\\study\\semester4\\chess1\\chess1\\Models\\Pawn.cs",
               "RelativeToolTip": "chess1\\Models\\Pawn.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAA3AAAAAAAAAA==",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAQwFMAAABOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-08T20:09:50.942Z"
+              "WhenOpened": "2026-06-08T20:09:50.942Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 12,
               "Title": "Enums.cs",
               "DocumentMoniker": "C:\\study\\semester4\\chess1\\chess1\\Models\\Enums.cs",
               "RelativeDocumentMoniker": "chess1\\Models\\Enums.cs",
@@ -164,7 +204,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 11,
               "Title": "Figure.cs",
               "DocumentMoniker": "C:\\study\\semester4\\chess1\\chess1\\Models\\Figure.cs",
               "RelativeDocumentMoniker": "chess1\\Models\\Figure.cs",
@@ -176,7 +216,33 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TopPanelUI.cs",
+              "DocumentMoniker": "C:\\study\\semester4\\chess1\\chess1\\UI\\TopPanelUI.cs",
+              "RelativeDocumentMoniker": "chess1\\UI\\TopPanelUI.cs",
+              "ToolTip": "C:\\study\\semester4\\chess1\\chess1\\UI\\TopPanelUI.cs",
+              "RelativeToolTip": "chess1\\UI\\TopPanelUI.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAAwBoAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-07T19:52:07.825Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 5,
+              "Title": "NotationPanelBuilder.cs",
+              "DocumentMoniker": "C:\\study\\semester4\\chess1\\chess1\\UI\\NotationPanelBuilder.cs",
+              "RelativeDocumentMoniker": "chess1\\UI\\NotationPanelBuilder.cs",
+              "ToolTip": "C:\\study\\semester4\\chess1\\chess1\\UI\\NotationPanelBuilder.cs",
+              "RelativeToolTip": "chess1\\UI\\NotationPanelBuilder.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADEAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-13T11:33:20.512Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
               "Title": "ImageLoader.cs",
               "DocumentMoniker": "C:\\study\\semester4\\chess1\\chess1\\Helpers\\ImageLoader.cs",
               "RelativeDocumentMoniker": "chess1\\Helpers\\ImageLoader.cs",
@@ -188,7 +254,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 9,
               "Title": "Cell.cs",
               "DocumentMoniker": "C:\\study\\semester4\\chess1\\chess1\\Models\\Cell.cs",
               "RelativeDocumentMoniker": "chess1\\Models\\Cell.cs",
@@ -200,7 +266,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 15,
               "Title": "Menu.cs",
               "DocumentMoniker": "C:\\study\\semester4\\chess1\\chess1\\Forms\\Menu.cs",
               "RelativeDocumentMoniker": "chess1\\Forms\\Menu.cs",
@@ -212,20 +278,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "TopPanelUI.cs",
-              "DocumentMoniker": "C:\\study\\semester4\\chess1\\chess1\\UI\\TopPanelUI.cs",
-              "RelativeDocumentMoniker": "chess1\\UI\\TopPanelUI.cs",
-              "ToolTip": "C:\\study\\semester4\\chess1\\chess1\\UI\\TopPanelUI.cs",
-              "RelativeToolTip": "chess1\\UI\\TopPanelUI.cs",
-              "ViewState": "AgIAACcAAAAAAAAAAAAowDMAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-07T19:52:07.825Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 8,
               "Title": "CellUI.cs",
               "DocumentMoniker": "C:\\study\\semester4\\chess1\\chess1\\UI\\CellUI.cs",
               "RelativeDocumentMoniker": "chess1\\UI\\CellUI.cs",
@@ -233,12 +286,11 @@
               "RelativeToolTip": "chess1\\UI\\CellUI.cs",
               "ViewState": "AgIAAAwAAAAAAAAAAAAAAH4AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-12T12:20:34.586Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-12T12:20:34.586Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 16,
               "Title": "Menu.cs [Design]",
               "DocumentMoniker": "C:\\study\\semester4\\chess1\\chess1\\Forms\\Menu.cs",
               "RelativeDocumentMoniker": "chess1\\Forms\\Menu.cs",
@@ -249,7 +301,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 18,
               "Title": "GameBoard.Designer.cs",
               "DocumentMoniker": "C:\\study\\semester4\\chess1\\chess1\\GameBoard.Designer.cs",
               "RelativeDocumentMoniker": "chess1\\GameBoard.Designer.cs",
@@ -261,7 +313,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 19,
               "Title": "GameBoard.cs [Design]",
               "DocumentMoniker": "C:\\study\\semester4\\chess1\\chess1\\GameBoard.cs",
               "RelativeDocumentMoniker": "chess1\\GameBoard.cs",
@@ -272,7 +324,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 17,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\study\\semester4\\chess1\\chess1\\Program.cs",
               "RelativeDocumentMoniker": "chess1\\Program.cs",
@@ -284,7 +336,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 14,
               "Title": "Menu.Designer.cs",
               "DocumentMoniker": "C:\\study\\semester4\\chess1\\chess1\\Forms\\Menu.Designer.cs",
               "RelativeDocumentMoniker": "chess1\\Forms\\Menu.Designer.cs",
