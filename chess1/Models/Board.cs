@@ -107,6 +107,11 @@ namespace chess1.Models
             movingFigure.OnMove();
             endCell.Figure = movingFigure;
 
+            if (movingFigure is Pawn && (endCell.Position.Row == 0 || endCell.Position.Row == 7)) 
+            {
+                endCell.Figure = new Queen(CurrentPlayerColor);
+            }
+
             // Сохраняем ход в историю
             Move move = new Move(startCell.Position, endCell.Position, movingFigure, capturedFigure);
             moveHistory.Push(move);
